@@ -11,15 +11,15 @@
 ## 1) Code Review Findings
 Critical bugs: 
 - 
-The original function is correct at adding the amount of non-cancelled orders but it uses len(orders) as the denominator and doesn't. This includes cancelled orders in the number so gives an artificially low average value. Additionally, there is no error handling in the code, as it throws a ZeroDivisionError in case the orders list is empty.
+The initial purpose is sound at adding the sum of the non-cancelled orders still, it takes the number of orders as the denominator and does not. This has cancelled orders in the number therefore artificially low value of average. Also, error handling has not been implemented in the code as it throws the ZeroDivisionError in case the orders list is empty.
 
 Edge cases & risks
 - 
-The code lacks error handling for empty lists. If the orders list is empty, len(orders) becomes 0, causing a ZeroDivisionError which crashes the program.
+The code does not have error processing of empty lists. When all orders are in the orders list, we have the length of the orders list equal to 0 and that results in a ZeroDivisionError resulting in the crash of the program.
 
 Code quality / design issues
 - 
-The function assumes every dictionary in the list has "status" and "amount" keys. Missing keys would cause a KeyError.
+The code does not have error processing of empty lists. When all orders are in the orders list, we have the length of the orders list equal to 0 and that results in a ZeroDivisionError resulting in the crash of the program.
 
 ## 2) Proposed Fixes / Improvements
 Summary of changes
@@ -32,7 +32,7 @@ See `correct_task1.py`
  ### Testing Considerations
 Empty List: [] -> Should return 0.0.
 
-All Cancelled: List with only "cancelled" orders -> Should return 0.0.
+All Cancelled: Only List to "cancelled" orders -> Should return 0.0.
 
 Mixed Status: List with both "completed" and "cancelled" -> Should calculate average of only completed ones.
 
@@ -42,11 +42,11 @@ Mixed Status: List with both "completed" and "cancelled" -> Should calculate ave
 
 Issues in original explanation
 - 
-The original explanation is misleading. It claims the function "correctly excludes cancelled orders," but while it excludes them from the sum, it fails to exclude them from the count (denominator), making the calculation mathematically incorrect.
+I added a validcount variable to achieve a count only of the non-cancelled orders made. This validcount is the one which is divided by the return statement. I also added a guard clause to give 0.0 in case of 0.0 valid count so that the division by 0 errors can be avoided.
 
 Rewritten explanation
 - 
-This function calculates the average order value by summing the amounts of non-cancelled orders and dividing by the count of those specific valid orders. It ensures mathematical accuracy by excluding cancelled orders from both the sum and the count. Additionally, it handles edge cases such as empty lists or lists containing only cancelled orders by returning 0.0.
+This is a calculation that determines the mean value of orders by the total value of the noncancelled orders and dividing this total by the number of such orders in particular. It is mathematically accurate because it does not include cancelled orders in the sum as well as in the count. Also, it treats hard cases (like lists of long/empty lists or lists of only cancelled orders) with returns of 0.0.
 
 ## 4) Final Judgment
 - Decision: Request Changes
@@ -64,11 +64,11 @@ The original logic if "@" in email is severely insufficient for validation. It i
 
 Edge cases & risks
 - 
-The code crashes with a TypeError if the list contains non-string types (e.g., None, integers, booleans), as the in operator cannot be used to search for a string inside a non-iterable type like an integer.
+A TypeError occurs on code crashing when the list contains some other type other than a string (e.g. None, integer, a boolean) because the in operator cannot be applied to find a string within a non-iterative type such as an integer.
 
 Code quality / design issues
 - 
-Relying on a simple substring check for email validation is poor engineering practice. Standard regular expressions (regex) should be used for robust pattern matching.
+The implementation of a simple substring check to validate email addresses is bad engineering practice. Normal strong regular expressions (regex) should be used to do strong pattern matching.
 
 ## 2) Proposed Fixes / Improvements
 Summary of changes
@@ -96,11 +96,12 @@ See `correct_task2.py`
 
 Issues in original explanation
 - 
-The original explanation falsely claims the function "safely ignores invalid entries." In reality, the code accepts almost any string containing an "@" symbol as valid and crashes on non-string inputs, failing to ignore invalid data safely.
+The original explanation falsely claims the function "safely ignores invalid entries." In reality, the code credentials for almost any string with an "@" symbol in them as valid, and crashes as non-strings, this time not ignoring invalid data safely.
+
 
 Rewritten explanation
 - 
-This function counts the number of valid email addresses in a list using a regular expression (regex). It validates that each email adheres to a standard format (user@domain.extension) and ensures execution safety by handling and ignoring non-string inputs (like None or numbers) via exception handling.
+This function is used to count the no. of valid email addresses from a list using regular expression (regex). It is used to validate that each email is in a standard form (user@domain.extension) and provides for the execution safety by processing and ignoring nonsensitive inputs to methods (such as None or numbers) using the exception handling.
 
 ## 4) Final Judgment
 - Decision: Request Changes
@@ -123,8 +124,7 @@ If the input list is empty [] or contains only None values [None, None], the fun
 
 Code quality / design issues
 - 
-The logic is inconsistent: it filters values inside the loop for the sum but uses the raw list length for the count. Both should be calculated based on the same criteria.
-
+The logic is inconsistent in that it filters values within the loop that will be added to the sum, but uses the raw number of elements in the list as the number of elements that will be added to the sum. Both should be calculated on the same criteria.
 ## 2) Proposed Fixes / Improvements
 Summary of changes
 - 
@@ -146,12 +146,11 @@ See `correct_task3.py`
 
 Issues in original explanation
 - 
-The original explanation claims the function "calculates the average of valid measurements," but the code actually divides by the total number of items (including invalid ones). The explanation contradicts the code's behavior.
+The original explanation says "calculates the average of valid measurements", but from the code it appears that what it is actually doing is dividing by the total number of things (including invalid ones). The explanation disagrees with the behavior of the code.
 
 Rewritten explanation
 - 
-This function calculates the average of valid numerical measurements. It explicitly filters out None values from both the sum and the count, ensuring that the average reflects only the valid data points. It also handles empty or all-None inputs safely by returning 0.0.
-
+This function is used to sum up the average of solid numbers. On the other hand, it explicitly excludes values of None from the sum as well as the count so it makes sure an average is calculated only over valid data values. It also conveys safely an input which is empty or all None as just 0.0.
 ## 4) Final Judgment
 - Decision: Request Changes
 - Justification: The original implementation contains a mathematical error (incorrect denominator) and lacks safety checks for empty inputs. The proposed fix is required to calculate the true average of valid data.
