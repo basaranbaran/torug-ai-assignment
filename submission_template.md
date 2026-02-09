@@ -19,7 +19,7 @@ The code lacks error handling for empty lists. If the orders list is empty, len(
 
 Code quality / design issues
 - 
-he function assumes every dictionary in the list has "status" and "amount" keys. Missing keys would cause a KeyError.
+The function assumes every dictionary in the list has "status" and "amount" keys. Missing keys would cause a KeyError.
 
 ## 2) Proposed Fixes / Improvements
 Summary of changes
@@ -27,7 +27,7 @@ Summary of changes
 I introduced a valid_count variable to count only the non-cancelled orders explicitly. The return statement now divides the total by this valid_count. I also added a guard clause to return 0.0 if valid_count is 0, preventing division by zero errors.
 
 ### Corrected code
-    correct_task1.py
+See `correct_task1.py`
 
  ### Testing Considerations
 Empty List: [] -> Should return 0.0.
