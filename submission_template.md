@@ -19,8 +19,7 @@ The code does not have error processing of empty lists. When all orders are in t
 
 Code quality / design issues
 - 
-The code does not have error processing of empty lists. When all orders are in the orders list, we have the length of the orders list equal to 0 and that results in a ZeroDivisionError resulting in the crash of the program.
-
+The function assumes perfectly formatted data without validating if keys like "status" or "amount" actually exist in the dictionary. Missing keys would cause a KeyError, which is a design flaw.
 ## 2) Proposed Fixes / Improvements
 Summary of changes
 - 
